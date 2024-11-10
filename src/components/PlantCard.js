@@ -1,15 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 
-function PlantCard() {
+function PlantCard({ plant }) {
+  const [isSoldOut, setIsSoldOut] = useState(false);
+
   return (
-    <li className="card" data-testid="plant-item">
-      <img src={"https://via.placeholder.com/400"} alt={"plant name"} />
-      <h4>{"plant name"}</h4>
-      <p>Price: {"plant price"}</p>
-      {true ? (
-        <button className="primary">In Stock</button>
-      ) : (
+    <li className="card">
+      <img src={plant.image} alt={plant.name} />
+      <h4>{plant.name}</h4>
+      <p>Price: ${plant.price}</p>
+      {isSoldOut ? (
         <button>Out of Stock</button>
+      ) : (
+        <button onClick={() => setIsSoldOut(true)} className="primary">
+          In Stock
+        </button>
       )}
     </li>
   );
