@@ -1,28 +1,37 @@
-import React, { useState, useEffect } from "react";
-import NewPlantForm from "./NewPlantForm";
+import React, { useEffect, useState } from "react";
 import PlantList from "./PlantList";
-import Search from "./Search";
+import NewPlantForm from "./NewPlantForm";
+
+const API_URL = "https://api.jsonbin.io/v3/b/6731e0b1acd3cb34a8a66ef1";
+const API_KEY = "$2a$10$1VxF1Z7gFIJrMfkSbIG8YOa1mjc8rRn.SNHz.yCV02hiToJeLJjbm";
+const API_KEY_ID = "6731e0d5e41b4d34e45235f9";
 
 function PlantPage() {
   const [plants, setPlants] = useState([]);
-  const [searchPlant, setsearchPlant] = useState("");
 
-  useEffect(()=> {
-    fetch("http://localhost:6001/plants")
-    .then((response) => response.json())
-    .then((data) => setPlants(data));
+  useEffect(() => {
+    fetch(API_URL, {
+      headers: {
+        "X-Master-Key": API_KEY,
+        "X-Access-Key-ID": API_KEY_ID,
+        "Content-Type": "application/json"
+      }
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        setPlants(data.record);
+      })
+      .catch((error) => console.error("Error fetching plants:", error));
   }, []);
-
-  const theDisplayedPlants = plants.filter((plant) =>
-    plant.name.toLowerCase().includes(searchPlant.toLowerCase())
-  );
+  
   return (
-    <main>
-      <NewPlantForm setPlants={setPlants} />
-      <Search searchPlant={searchPlant} setsearchPlant={setsearchPlant} />
-      <PlantList plants={theDisplayedPlants} />
-    </main>
+    <div>
+      <NewPlantForm setPlants={setPlants} plants={plants} />
+      <PlantList plants={plants} />
+    </div>
   );
 }
 
 export default PlantPage;
+
+
