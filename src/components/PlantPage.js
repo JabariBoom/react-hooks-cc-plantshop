@@ -7,8 +7,10 @@ function PlantPage() {
   const [plants, setPlants] = useState([]);
   const [searchPlant, setsearchPlant] = useState("");
 
+  const baseURL = "https://my-json-server.typicode.com/JabariBoom/react-hooks-cc-plantshop/plants"
+
   useEffect(()=> {
-    fetch("http://localhost:6001/plants")
+    fetch(baseURL)
     .then((response) => response.json())
     .then((data) => setPlants(data));
   }, []);

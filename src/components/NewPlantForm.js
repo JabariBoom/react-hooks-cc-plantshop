@@ -10,10 +10,12 @@ function NewPlantForm({ setPlants }) {
   function handleChange(e) {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   }
+  
+  const baseURL = "https://my-json-server.typicode.com/JabariBoom/react-hooks-cc-plantshop/plants"
 
   function handleSubmit(e) {
     e.preventDefault();
-    fetch("http://localhost:6001/plants", {
+    fetch(baseURL, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
